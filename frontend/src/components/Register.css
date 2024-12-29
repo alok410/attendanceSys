@@ -1,0 +1,40 @@
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+}
+
+.register-container input,
+.register-container select,
+.register-container button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-container button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.register-container button:hover {
+  background-color: #45a049;
+}
+
+.register-container p {
+  text-align: center;
+}
+
+.register-container span {
+  color: #007BFF;
+  cursor: pointer;
+}
+
+.register-container span:hover {
+  text-decoration: underline;
+}

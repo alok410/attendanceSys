@@ -1,0 +1,194 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f7fa;  /* Lighter background color for better readability */
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h2, h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+/* Lectures Container */
+.lectures-container {
+  width: 90%;  /* Increased width for more space */
+  max-width: 1400px;  /* Increased maximum width */
+  margin: 4rem auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;  /* Slightly rounded corners */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e5e5;
+}
+
+h2 {
+  color: #2e2e2e;
+  font-size: 2.2rem;  /* Increased font size */
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+h3 {
+  color: #555;
+  font-size: 1.5rem;  /* Slightly larger subheading */
+  margin-bottom: 1.25rem;
+}
+
+/* New Lecture Form */
+.new-lecture-form {
+  background-color: #fafafa;  /* Lighter background for form */
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.5rem;
+}
+
+.new-lecture-form form {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.new-lecture-form label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.new-lecture-form input,
+.new-lecture-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #ddd;  /* Softer border color */
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.new-lecture-form input:focus,
+.new-lecture-form textarea:focus {
+  border-color: #3498db;  /* Blue focus state for accessibility */
+}
+
+.new-lecture-form button {
+  padding: 12px 25px;
+  background-color: #3498db;  /* Updated button color */
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.new-lecture-form button:hover {
+  background-color: #2980b9;  /* Slightly darker blue for hover state */
+  transform: translateY(-2px);
+}
+
+.new-lecture-form button:active {
+  transform: translateY(1px);
+}
+/* Lectures List */
+.lectures-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  /* Reduced width of lecture items */
+  gap: 1.5rem;  /* Reduced gap between items */
+}
+
+.lecture-item {
+  background-color: #ffffff;
+  padding: 1.25rem;  /* Reduced padding for smaller item size */
+  border-radius: 10px;  /* Rounded corners for a smooth look */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+  transition: box-shadow 0.3s ease;
+  height: auto;  /* Let content determine the height */
+}
+
+.lecture-item:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);  /* Slightly enhanced hover effect */
+}
+
+.lecture-item h3 {
+  color: #3498db;
+  font-size: 1.4rem;  /* Slightly smaller font for the title */
+  margin-bottom: 0.75rem;  /* Reduced margin */
+  font-weight: 600;
+}
+
+.lecture-item p {
+  font-size: 1rem;  /* Reduced font size for better fit */
+  color: #777;
+  margin-bottom: 0.5rem;  /* Reduced margin */
+}
+
+.lecture-item button {
+  padding: 8px 18px;  /* Reduced padding for smaller button */
+  background-color: #28a745;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.lecture-item button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.lecture-item button:active {
+  transform: translateY(1px);
+}
+
+
+/* Loading State */
+.loading {
+  text-align: center;
+  font-size: 1.5rem;  /* Larger text for better visibility */
+  color: #3498db;
+  margin-top: 2rem;
+}
+
+/* Popup Form */
+.popup-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 450px;  /* Slightly wider popup */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+button[type="button"] {
+  margin-left: 12px;
+  background-color: #e74c3c;  /* Softer red for close button */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #c0392b;  /* Darker red for hover effect */
+}
