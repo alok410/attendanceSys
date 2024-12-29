@@ -5,18 +5,14 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const SECRET_KEY ='iwhirwaho'; 
 
-const SECRET_KEY ='iwhirwaho'; // Use environment variable for production
-
-// Middleware
 app.use(cors({
   origin: '*', // Adjust this to your frontend's origin for better security
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
-
-// MySQL database connection
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -24,7 +20,6 @@ const db = mysql.createConnection({
   database: 'tutorialdb',
 });
 
-// Connect to database
 db.connect((err) => {
   if (err) {
     console.error('Database connection failed:', err.message);
@@ -33,7 +28,6 @@ db.connect((err) => {
   console.log('Connected to MySQL database');
 });
 
-// Middleware for authentication
 const authenticate = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -51,10 +45,8 @@ const authenticate = (req, res, next) => {
   });
 };
 
-// Register route
 app.post('/register', (req, res) => {
   const { name, email, password, role } = req.body;
-  console.log(req.body);
 
   if (!name || !email || !password || !role) {
     return res.status(400).json({ error: 'All fields are required' });
@@ -77,8 +69,6 @@ app.post('/register', (req, res) => {
     });
   });
 });
-
-// Login route
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -121,7 +111,7 @@ app.post('/login', (req, res) => {
     }
   });
 });
-// Protected route: Fetch all users
+
 app.get('/users', authenticate, (req, res) => {
   const sql = 'SELECT * FROM users';
   db.query(sql, (err, result) => {
@@ -133,7 +123,25 @@ app.get('/users', authenticate, (req, res) => {
   });
 });
 
-// Profile route: Fetch user's profile data
+
+app.get('/faculties',authenticate, async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1]; // Get token from header
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    // You might want to validate the token here...
+
+    // Fetch faculties (teachers) from the users table
+    const sql = 'SELECT id, name FROM users WHERE role = "teacher"';
+    const faculties = await dbQuery(sql); // Assuming dbQuery is your helper function for queries
+    res.json(faculties); // Send the list of teachers as a response
+  } catch (error) {
+    console.error('Error fetching faculties:', error.message);
+    res.status(500).json({ message: 'Error fetching faculties' });
+  }
+});
 app.get('/api/user/profile', authenticate, (req, res) => {
   const userEmail = req.user.email;  // Extract email from the decoded token
 
@@ -158,9 +166,7 @@ app.get('/api/user/profile', authenticate, (req, res) => {
     });
   });
 });
-
-// Classes route: Fetch all classes
-app.get('/classes', (req, res) => {
+app.get('/classes',authenticate, (req, res) => {
   const sql = 'SELECT * FROM classes'; // Query to get all classes
   db.query(sql, (err, result) => {
     if (err) {
@@ -170,8 +176,6 @@ app.get('/classes', (req, res) => {
     return res.status(200).json(result);
   });
 });
-
-// Fetch class by classId
 app.get('/class/:classId', authenticate, (req, res) => {
   const { classId } = req.params;
   
@@ -188,8 +192,6 @@ app.get('/class/:classId', authenticate, (req, res) => {
     return res.status(200).json(result[0]); // Send the class name
   });
 });
-
-// Fetch subjects for a given classId
 app.get('/subjects', authenticate, (req, res) => {
   const { classId } = req.query; // Get classId from query params
 
@@ -211,14 +213,12 @@ app.get('/subjects', authenticate, (req, res) => {
   });
 });
 
-// Fetch students for a given classId
 app.get('/students/:classid', authenticate, (req, res) => {
   const { classid } = req.params; // Get classid from URL params
   
   // SQL query to get students based on classId
   const sql = 'SELECT * FROM users WHERE class_id = ?'; // Adjust the table and field names as per your database
   
-  console.log(classid)
   db.query(sql, [classid], (err, result) => {
     if (err) {
       console.error('Database query error:', err);
@@ -232,8 +232,6 @@ app.get('/students/:classid', authenticate, (req, res) => {
   });
 });
 
-
-// Fetch subject by subjectId
 app.get('/subjects/:subjectId', authenticate, (req, res) => {
   const { subjectId } = req.params; // Get subjectId from URL params
   const sql = 'SELECT * FROM subject WHERE Id = ?'; // Assuming 'Id' is the column for subject ID
@@ -249,8 +247,6 @@ app.get('/subjects/:subjectId', authenticate, (req, res) => {
   });
 });
 
-
-// Fetch attendances for a specific lecture
 app.get('/attendances/:classid/:lectureId', authenticate, (req, res) => {
   const { classid, lectureId } = req.params;
 
@@ -272,7 +268,6 @@ app.get('/attendances/:classid/:lectureId', authenticate, (req, res) => {
   });
 });
 
-// Fetch attendances for a specific lecture
 app.get('/attendances/:classid/:lectureId', authenticate, (req, res) => {
   const { classid, lectureId } = req.params;
 
@@ -294,7 +289,6 @@ app.get('/attendances/:classid/:lectureId', authenticate, (req, res) => {
   });
 });
 
-// Lectures route: Fetch all lectures for a given subjectId, including subject name
 app.get('/lectures', authenticate, (req, res) => {
   const { subjectId } = req.query; // Get subjectId from query params
 
@@ -309,8 +303,7 @@ app.get('/lectures', authenticate, (req, res) => {
   });
 });
 
-
-app.post('/saveAttendance', (req, res) => {
+app.post('/saveAttendance',authenticate, (req, res) => {
   const { lectureId, attendance } = req.body;
 
   console.log('Incoming request body:', req.body);
@@ -393,11 +386,6 @@ app.post('/saveAttendance', (req, res) => {
   }
 });
 
-
-
-
-
-
 app.post('/createlecture', authenticate, async (req, res) => {
   const { classId, subjectId, date, lectureTitle, summary } = req.body;
 
@@ -424,7 +412,74 @@ app.post('/createlecture', authenticate, async (req, res) => {
   }
 });
 
-// Helper function to handle database queries with promises
+app.post('/createsubjects',authenticate, async (req, res) => {
+  const { subjectCode, subjectName, faculty_1, faculty_2, faculty_3, faculty_4,classid } = req.body;
+
+  // Check if faculty fields are valid or null
+  const validateFacultyIds = [faculty_1, faculty_2, faculty_3, faculty_4].every(facultyId => facultyId === '' || (!isNaN(facultyId) && facultyId));
+
+  if (!validateFacultyIds) {
+    return res.status(400).json({ error: 'Invalid faculty IDs provided' });
+  }
+
+  // Prepare the values for insertion, setting faculty values to NULL if empty
+  const insertSubjectQuery = `
+    INSERT INTO subject (subjectCode,classid, subjectName, faculty_1, faculty_2, faculty_3, faculty_4)
+    VALUES (?, ?, ?, ?, ?, ?,?)
+  `;
+
+  const insertValues = [
+    subjectCode,
+    classid,
+    subjectName,
+    faculty_1 || null,  // Insert NULL if faculty_1 is empty
+    faculty_2 || null,  // Insert NULL if faculty_2 is empty
+    faculty_3 || null,  // Insert NULL if faculty_3 is empty
+    faculty_4 || null,  // Insert NULL if faculty_4 is empty
+  ];
+
+  try {
+    // Execute the insert query
+    const result = await dbQuery(insertSubjectQuery, insertValues);
+
+    // Return the newly created subject
+    const newSubject = {
+      id: result.insertId,
+      classid,
+      subjectCode,
+      subjectName,
+      faculty_1: faculty_1 || null,
+      faculty_2: faculty_2 || null,
+      faculty_3: faculty_3 || null,
+      faculty_4: faculty_4 || null,
+    };
+
+    res.status(201).json(newSubject);
+  } catch (error) {
+    console.error('Error creating subject:', error); 
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+app.post('/createClass', authenticate, (req, res) => {
+  const { semester, department, program } = req.body;
+
+  if (!semester || !department || !program) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  const sql = 'INSERT INTO classes (semester, department, program) VALUES (?, ?, ?)';
+  db.query(sql, [semester, department, program], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error: Could not create class' });
+    }
+    return res.status(201).json({ message: 'Class created successfully' });
+  });
+});
+
+
 const dbQuery = (sql, params) => {
   return new Promise((resolve, reject) => {
     db.query(sql, params, (err, result) => {
@@ -437,20 +492,7 @@ const dbQuery = (sql, params) => {
   });
 };
 
-  
 
-
-
-
-
-
-
-
-
-
-
-
-// Start server
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {  
   console.log(`Server running on http://localhost:${PORT}`);

@@ -1,162 +1,39 @@
-/* General Styles */
+  /* Lectures.css */
+
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f5f7fa;  /* Lighter background color for better readability */
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fb;
   margin: 0;
   padding: 0;
-  color: #333;
 }
 
-h2, h3 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-}
-
-/* Lectures Container */
 .lectures-container {
-  width: 90%;  /* Increased width for more space */
-  max-width: 1400px;  /* Increased maximum width */
-  margin: 4rem auto;
-  padding: 2.5rem;
-  background-color: #ffffff;
-  border-radius: 12px;  /* Slightly rounded corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-  border: 1px solid #e5e5e5;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-h2 {
-  color: #2e2e2e;
-  font-size: 2.2rem;  /* Increased font size */
-  margin-bottom: 1.5rem;
-  text-align: center;
+.lectures-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-h3 {
-  color: #555;
-  font-size: 1.5rem;  /* Slightly larger subheading */
-  margin-bottom: 1.25rem;
-}
-
-/* New Lecture Form */
-.new-lecture-form {
-  background-color: #fafafa;  /* Lighter background for form */
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2.5rem;
-}
-
-.new-lecture-form form {
-  display: grid;
-  gap: 1.75rem;
-}
-
-.new-lecture-form label {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #555;
-}
-
-.new-lecture-form input,
-.new-lecture-form textarea {
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 1rem;
-  border: 1px solid #ddd;  /* Softer border color */
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.new-lecture-form input:focus,
-.new-lecture-form textarea:focus {
-  border-color: #3498db;  /* Blue focus state for accessibility */
-}
-
-.new-lecture-form button {
-  padding: 12px 25px;
-  background-color: #3498db;  /* Updated button color */
+.add-lecture-btn {
+  background-color: #007bff;
   color: white;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 1rem;
-}
-
-.new-lecture-form button:hover {
-  background-color: #2980b9;  /* Slightly darker blue for hover state */
-  transform: translateY(-2px);
-}
-
-.new-lecture-form button:active {
-  transform: translateY(1px);
-}
-/* Lectures List */
-.lectures-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  /* Reduced width of lecture items */
-  gap: 1.5rem;  /* Reduced gap between items */
-}
-
-.lecture-item {
-  background-color: #ffffff;
-  padding: 1.25rem;  /* Reduced padding for smaller item size */
-  border-radius: 10px;  /* Rounded corners for a smooth look */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e5e5;
-  transition: box-shadow 0.3s ease;
-  height: auto;  /* Let content determine the height */
-}
-
-.lecture-item:hover {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);  /* Slightly enhanced hover effect */
-}
-
-.lecture-item h3 {
-  color: #3498db;
-  font-size: 1.4rem;  /* Slightly smaller font for the title */
-  margin-bottom: 0.75rem;  /* Reduced margin */
-  font-weight: 600;
-}
-
-.lecture-item p {
-  font-size: 1rem;  /* Reduced font size for better fit */
-  color: #777;
-  margin-bottom: 0.5rem;  /* Reduced margin */
-}
-
-.lecture-item button {
-  padding: 8px 18px;  /* Reduced padding for smaller button */
-  background-color: #28a745;
-  color: white;
+  padding: 10px 20px;
   font-size: 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
-.lecture-item button:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
+.add-lecture-btn:hover {
+  background-color: #0056b3;
 }
 
-.lecture-item button:active {
-  transform: translateY(1px);
-}
-
-
-/* Loading State */
-.loading {
-  text-align: center;
-  font-size: 1.5rem;  /* Larger text for better visibility */
-  color: #3498db;
-  margin-top: 2rem;
-}
-
-/* Popup Form */
 .popup-form {
   position: fixed;
   top: 0;
@@ -167,28 +44,127 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .popup-content {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 30px;
-  border-radius: 12px;
-  width: 450px;  /* Slightly wider popup */
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-button[type="button"] {
-  margin-left: 12px;
-  background-color: #e74c3c;  /* Softer red for close button */
+.popup-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  background-color: #007bff;
   color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
   border: none;
-  padding: 8px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 6px;
   transition: background-color 0.3s ease;
 }
 
-button[type="button"]:hover {
-  background-color: #c0392b;  /* Darker red for hover effect */
+.form-actions button:hover {
+  background-color: #0056b3;
+}
+
+.lectures-list {
+  margin-top: 30px;
+}
+
+.lecture-item {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.lecture-item h3 {
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.lecture-item p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.lecture-item button {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.lecture-item button:hover {
+  background-color: #218838;
+}
+
+.loading {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .lectures-container {
+    padding: 10px;
+  }
+
+  .popup-content {
+    width: 90%;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.9rem;
+  }
+
+  .form-actions button {
+    font-size: 0.9rem;
+  }
 }

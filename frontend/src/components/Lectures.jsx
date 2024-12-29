@@ -14,69 +14,56 @@ const Lectures = () => {
     date: '',
     time: '',
   });
-  const [showForm, setShowForm] = useState(false); // State to control popup visibility
+  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch subject details and lectures
-  useEffect(() => {
-    const fetchLectures = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('Token not found');
+  const fetchLectures = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Token not found');
 
-        // Fetch the subject details
-        const subjectResponse = await fetch(`http://localhost:8081/subjects/${subjectId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!subjectResponse.ok) {
-          const errorMessage = await subjectResponse.text();
-          throw new Error(`Failed to fetch subject details: ${errorMessage}`);
-        }
-
-        const subjectData = await subjectResponse.json();
-        setClassId(subjectData.classid);
-        setSubjectName(subjectData.subjectName);
-
-        // Fetch lectures for the given subjectId
-        const lectureResponse = await fetch(`http://localhost:8081/lectures?subjectId=${subjectId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!lectureResponse.ok) {
-          const errorMessage = await lectureResponse.text();
-          throw new Error(`Failed to fetch lectures: ${errorMessage}`);
-        }
-
-        const lectureData = await lectureResponse.json();
-
-        // Sort lectures by date in descending order (latest first)
-        lectureData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        setLectures(lectureData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+      const subjectResponse = await fetch(`http://localhost:8081/subjects/${subjectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!subjectResponse.ok) {
+        const errorMessage = await subjectResponse.text();
+        throw new Error(`Failed to fetch subject details: ${errorMessage}`);
       }
-    };
 
+      const subjectData = await subjectResponse.json();
+      setClassId(subjectData.classid);
+      setSubjectName(subjectData.subjectName);
+
+      const lectureResponse = await fetch(`http://localhost:8081/lectures?subjectId=${subjectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!lectureResponse.ok) {
+        const errorMessage = await lectureResponse.text();
+        throw new Error(`Failed to fetch lectures: ${errorMessage}`);
+      }
+
+      const lectureData = await lectureResponse.json();
+      lectureData.sort((a, b) => new Date(b.date) - new Date(a.date));
+      setLectures(lectureData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchLectures();
   }, [subjectId]);
 
-  // Handle input changes for creating a new lecture
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewLecture((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setNewLecture((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission to create a new lecture
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate input fields
     const { lectureTitle, summary, date, time } = newLecture;
     if (!lectureTitle || !summary || !date || !time) {
       alert('Please fill in all the fields');
@@ -87,15 +74,7 @@ const Lectures = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token not found');
 
-      const payload = {
-        lectureTitle,
-        summary,
-        date, // Changed from 'date' to 'lectureDate'
-        time,
-        subjectId: subjectId,
-        classId: classId,
-      };
-
+      const payload = { lectureTitle, summary, date, time, subjectId, classId };
       const response = await fetch('http://localhost:8081/createlecture', {
         method: 'POST',
         headers: {
@@ -107,50 +86,23 @@ const Lectures = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error creating lecture:', errorData);
         throw new Error(errorData.error || 'Failed to create lecture');
       }
 
       const createdLecture = await response.json();
-
-      // Map the response to your desired structure
-      const mappedLecture = {
-        id: createdLecture.id,
-        lectureTitle: createdLecture.lectureTitle,
-        summary: createdLecture.summary,
-        date: createdLecture.date, // map the field
-        time: createdLecture.time,
-        subjectId: createdLecture.subjectId,
-        classId: createdLecture.classId,
-        createdAt: createdLecture.createdAt,
-        updatedAt: createdLecture.updatedAt,
-      };
-
-      setLectures((prevLectures) => [...prevLectures, mappedLecture]);
-      // Close the popup and reset form fields after successful creation
+      setLectures((prevLectures) => [...prevLectures, createdLecture]);
       setShowForm(false);
-      setNewLecture({
-        lectureTitle: '',
-        summary: '',
-        date: '',
-        time: '',
-      });
-
+      setNewLecture({ lectureTitle: '', summary: '', date: '', time: '' });
       alert('Lecture created successfully!');
+      fetchLectures();
     } catch (error) {
       alert(`Error: ${error.message}`);
     }
   };
 
-  // Handle cancel button to close popup
   const handleCancel = () => {
     setShowForm(false);
-    setNewLecture({
-      lectureTitle: '',
-      summary: '',
-      date: '',
-      time: '',
-    });
+    setNewLecture({ lectureTitle: '', summary: '', date: '', time: '' });
   };
 
   if (loading) {
@@ -159,20 +111,17 @@ const Lectures = () => {
 
   return (
     <div className="lectures-container">
-      <h2>Lectures for Subject: {subjectName}</h2>
-
-      {/* Button to open the Add Lecture popup */}
+      <h2 className="lectures-title">Lectures for Subject: {subjectName}</h2>
       <button onClick={() => setShowForm(true)} className="add-lecture-btn">
         Add Lecture
       </button>
 
-      {/* Popup Form for creating a new lecture */}
       {showForm && (
         <div className="popup-form">
           <div className="popup-content">
             <h3>Create New Lecture</h3>
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className="form-group">
                 <label htmlFor="lectureTitle">Lecture Title</label>
                 <input
                   type="text"
@@ -183,7 +132,7 @@ const Lectures = () => {
                   required
                 />
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor="summary">Summary</label>
                 <textarea
                   id="summary"
@@ -193,7 +142,7 @@ const Lectures = () => {
                   required
                 />
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor="date">Date</label>
                 <input
                   type="date"
@@ -204,7 +153,7 @@ const Lectures = () => {
                   required
                 />
               </div>
-              <div>
+              <div className="form-group">
                 <label htmlFor="time">Time</label>
                 <input
                   type="time"
@@ -215,14 +164,15 @@ const Lectures = () => {
                   required
                 />
               </div>
-              <button type="submit">Create Lecture</button>
-              <button type="button" onClick={handleCancel}>Cancel</button>
+              <div className="form-actions">
+                <button type="submit">Create Lecture</button>
+                <button type="button" onClick={handleCancel}>Cancel</button>
+              </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Display existing lectures */}
       {lectures.length === 0 ? (
         <p>No lectures available for this subject.</p>
       ) : (
@@ -232,9 +182,7 @@ const Lectures = () => {
               <h3>{lecture.lectureTitle}</h3>
               <p>{lecture.summary}</p>
               <p>Date: {new Date(lecture.date).toLocaleDateString()}</p>
-
-<p>Time: {lecture.time ? new Date(`1970-01-01T${lecture.time}Z`).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) : 'Invalid time'}</p>
-
+              <p>Time: {new Date(`1970-01-01T${lecture.time}Z`).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</p>
               <button
                 onClick={() => navigate(`/attendances/${classId}/${lecture.id}`)}
               >

@@ -67,26 +67,35 @@ const ProfilePage = () => {
     <div className="profile-page">
       <h1>Profile Page</h1>
 
-
       {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Show error message */}
+      
       {user ? (
         <div className="profile-details">
           <p><strong>Name:</strong> {user.name} {user.lastName}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Role:</strong> {user.role}</p>
-          {/* <button onClick={handleEditClick}>Edit Profile</button> */}
-          <button style={{marginLeft:"700px"}} onClick={handleLogout}>Logout</button>
-             
           
-    {/* Back button */}
-    <button style={{marginTop:"30px"}}  onClick={handleBackClick}>Back</button> 
+          {/* Edit Profile Button */}
+          <button className="edit-profile-btn" onClick={handleEditClick}>
+            Edit Profile
+          </button>
+
+          {/* Logout Button */}
+          <button className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
+
+          {/* Back Button */}
+          <button className="back-btn" onClick={handleBackClick}>
+            Back
+          </button>
         </div>
       ) : (
         <p>No user data available</p>
       )}
 
       {/* Modal for updating profile */}
-      {/* {isModalOpen && <UpdateProfileDialog user={user} onClose={() => setIsModalOpen(false)} />} */}
+      {isModalOpen && <UpdateProfileDialog user={user} onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

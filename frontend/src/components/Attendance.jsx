@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import "./Attendance.css"
+import './Attendance.css';
 
 export const Attendance = () => {
-  // Destructure both classid and lectureid from the URL params
   const { classid, lectureId } = useParams();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [attendance, setAttendance] = useState({}); // State for attendance
+  const [attendance, setAttendance] = useState({});
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const token = localStorage.getItem('token'); // Retrieve token from localStorage
+        const token = localStorage.getItem('token');
         if (!token) throw new Error('Token not found');
 
-        // Fetch students data for the specific classId
         const studentResponse = await fetch(`http://localhost:8081/students/${classid}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Attach the token for authentication
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!studentResponse.ok) {
@@ -27,29 +25,28 @@ export const Attendance = () => {
         }
 
         const studentData = await studentResponse.json();
-        setStudents(studentData); // Set students data in state
+        setStudents(studentData);
 
-        // Initialize attendance state with default values
         setAttendance(
           studentData.reduce((acc, student) => {
-            acc[student.id] = false; // Default attendance is "Absent"
+            acc[student.id] = false;
             return acc;
           }, {})
         );
       } catch (error) {
-        setError(error.message); // Set error message if any error occurs
+        setError(error.message);
       } finally {
-        setLoading(false); // Set loading to false once data is fetched or error occurs
+        setLoading(false);
       }
     };
 
-    fetchStudents(); // Call the fetchStudents function
-  }, [classid]); // Re-run the effect if classid changes
+    fetchStudents();
+  }, [classid]);
 
   const handleAttendanceChange = (studentId, status) => {
     setAttendance((prev) => ({
       ...prev,
-      [studentId]: status === 'Present', // Convert to boolean
+      [studentId]: status === 'Present',
     }));
   };
 
@@ -58,15 +55,15 @@ export const Attendance = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Token not found');
       const payload = {
-        lectureId: lectureId, // Ensure you're sending the correct lectureId
+        lectureId,
         attendance: students.map((student) => ({
           studentId: student.id,
-          isPresent: attendance[student.id] ?? false, // Use false if not modified
+          isPresent: attendance[student.id] ?? false,
         })),
       };
-  
+
       console.log('Submitting payload:', JSON.stringify(payload, null, 2));
-  
+
       const response = await fetch('http://localhost:8081/saveAttendance', {
         method: 'POST',
         headers: {
@@ -75,32 +72,28 @@ export const Attendance = () => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error response:', errorData);
         throw new Error(errorData.error || 'Failed to save attendance');
       }
-  
+
       alert('Attendance saved successfully');
     } catch (err) {
       alert(`Error: ${err.message}`);
     }
   };
 
-  // Show loading message while data is being fetched
-  if (loading) return <div>Loading students...</div>;
-
-  // Show error message if any error occurs
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className="loading">Loading students...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
 
   return (
-    <div>
-      <h2>Attendance for Class {classid}</h2>
+    <div className="attendance-container">
+      <h2 className="attendance-title">Attendance for Class {classid}</h2>
 
-      {/* Display student list */}
       {students.length > 0 ? (
-        <table>
+        <table className="attendance-table">
           <thead>
             <tr>
               <th>Student ID</th>
@@ -117,6 +110,7 @@ export const Attendance = () => {
                 <td>{student.email}</td>
                 <td>
                   <select
+                    className="attendance-select"
                     value={attendance[student.id] ? 'Present' : 'Absent'}
                     onChange={(e) => handleAttendanceChange(student.id, e.target.value)}
                   >
@@ -129,10 +123,12 @@ export const Attendance = () => {
           </tbody>
         </table>
       ) : (
-        <div>No students found for this class.</div>
+        <div className="no-students">No students found for this class.</div>
       )}
 
-      <button onClick={handleSubmit}>Save Attendance</button>
+      <button className="save-attendance-btn" onClick={handleSubmit}>
+        Save Attendance
+      </button>
     </div>
   );
 };
