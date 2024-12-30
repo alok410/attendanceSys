@@ -153,7 +153,7 @@ const ClassPage = () => {
 
   return (
     <div id="classes-container" className="classes-container">
-      <h2>Classes</h2>
+      <h2>GPER - Classes</h2>
       <div id="filters-container" className="filters">
         <div className="filter">
           <label htmlFor="department">Department</label>
@@ -202,7 +202,7 @@ const ClassPage = () => {
 
         <button
           id="apply-filters-button"
-          className="apply-filters-btn"
+          className=""
           onClick={handleFilterChange}
         >
           Apply Filters
@@ -211,7 +211,7 @@ const ClassPage = () => {
 
       <button
         id="create-class-button"
-        className="create-class-btn"
+        className=""
         onClick={() => setShowCreateClassModal(true)} // Show the modal
       >
         Create Class
@@ -263,9 +263,10 @@ const ClassPage = () => {
                 </select>
               </div>
 
-              <div className="modal-buttons">
-                <button type="submit">Create Class</button>
+              <div className="">
+                <button  type="submit">Create Class</button>
                 <button
+                  style={{marginTop:"7px"}}
                   type="button"
                   onClick={() => setShowCreateClassModal(false)} // Close modal
                   className="cancel-button"
@@ -283,11 +284,11 @@ const ClassPage = () => {
           <p>No classes available</p>
         ) : (
           filteredClasses.map((cls) => (
-            <div key={cls.id} id={`class-${cls.id}`} className="class-item">
-              <button
+            <div key={cls.id} id={`class-${cls.id}`} >
+              <button className='class-btn' 
                 onClick={() => navigate(`/class/${cls.id}`)}
               >
-                {cls.department} - {cls.program} (sem - {cls.semester})
+                {cls.department} <br/> {cls.program} <br/>(sem - {cls.semester})
               </button>
             </div>
           ))

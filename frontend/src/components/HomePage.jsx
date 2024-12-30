@@ -8,11 +8,7 @@ const HomePage = () => {
   const [isAuthorized, setIsAuthorized] = useState(null); // `null` while loading, `true` if authorized, `false` otherwise.
   const [users, setUsers] = useState([]); // Users fetched from the protected endpoint.
   const [userDetails, setUserDetails] = useState(null); // To store logged-in user details.
-  const [classes, setClasses] = useState([]); // To store classes fetched from backend
-  const [filteredClasses, setFilteredClasses] = useState([]); // To store filtered classes
-  const [departmentFilter, setDepartmentFilter] = useState('all'); // Department filter
-  const [semesterFilter, setSemesterFilter] = useState('all');
-  const [programFilter, setProgramFilter] = useState('all');
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,12 +86,21 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
+      <div>
+
       <button
-                className="class-button"
+                className="class-button home-btn"
                 onClick={() => navigate(`/class`)} // Navigate to the class details page
-              >
+                >
                 Attendance
               </button>
+              <button
+                className="class-button home-btn"
+                onClick={() => navigate(`/students`)} // Navigate to the class details page
+                >
+                Add Students
+              </button>
+                </div>
     </>
   );
 };

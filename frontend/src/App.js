@@ -7,6 +7,7 @@ import Subject from './components/Subject';
 import Lectures from './components/Lectures';
 import  Attendance  from './components/Attendance';
 import ClassPage from './components/class';
+import Students from './components/Students';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/class/:classId" element={<Subject />} />
         <Route path="/lectures/:subjectId" element={<Lectures />} />
         <Route path="/attendances/:classid/:lectureId" element={<Attendance />} />                
+        <Route path="/students" element={<Students />} />                
       </Routes>
     </Router>
   );

@@ -39,10 +39,11 @@
   }
   
   #apply-filters-button {
-    padding: 10px 20px;
     font-size: 1rem;
     background-color: #007bff;
     color: white;
+    height: 37px;
+    margin-top: 22px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -57,22 +58,26 @@
   #create-class-button {
     padding: 10px 20px;
     font-size: 1.1rem;
-    background-color: #28a745;
+    background-color: rgb(60, 45, 45);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 20px 0;
     display: block;
     width: 200px;
-    margin-left: auto;
     margin-right: auto;
+    
+    border: 2px solid black;
+
   }
   
   #create-class-button:hover {
-    background-color: #218838;
-  }
+color: black;  
+border: 2px solid black;
+background-color: transparent;
+}
+
   
   /* Class card styling */
   #classes-list {
@@ -198,3 +203,9 @@
     background-color: #0056b3;
   }
   
+
+  .class-btn{
+    width: 220px;
+    font-size: larger;
+    height: 200px;
+  }

@@ -125,10 +125,11 @@ export const Attendance = () => {
       ) : (
         <div className="no-students">No students found for this class.</div>
       )}
-
+      <div className='save-atd-btn'>
       <button className="save-attendance-btn" onClick={handleSubmit}>
         Save Attendance
       </button>
+      </div>
     </div>
   );
 };

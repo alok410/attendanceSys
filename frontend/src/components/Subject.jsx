@@ -197,12 +197,13 @@ const Subject = () => {
                 </div>
               ))}
               <button type="submit">Create</button>
+              <button onClick={()=>{handleCloseModal()}}  >Cancle</button>
             </form>
           </div>
         </div>
       )}
 
-      <div className="class-details">
+      <div style={{marginTop:"30px"}} className="class-details">
         <p><strong>Program:</strong> {classDetails.program || 'Not available'}</p>
         <p><strong>Department:</strong> {classDetails.department || 'Not available'}</p>
         <p><strong>Semester:</strong> {classDetails.semester || 'Not available'}</p>

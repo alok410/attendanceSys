@@ -142,6 +142,26 @@ app.get('/faculties',authenticate, async (req, res) => {
     res.status(500).json({ message: 'Error fetching faculties' });
   }
 });
+
+app.get('/studentslist',authenticate, async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1]; // Get token from header
+    if (!token) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    // You might want to validate the token here...
+
+    // Fetch faculties (teachers) from the users table
+    const sql = 'SELECT id, name FROM users WHERE role = "student"';
+    const students = await dbQuery(sql); // Assuming dbQuery is your helper function for queries
+    res.json(students); // Send the list of teachers as a response
+  } catch (error) {
+    console.error('Error fetching students:', error.message);
+    res.status(500).json({ message: 'Error fetching students' });
+  }
+});
+
 app.get('/api/user/profile', authenticate, (req, res) => {
   const userEmail = req.user.email;  // Extract email from the decoded token
 

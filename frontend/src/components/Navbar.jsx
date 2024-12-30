@@ -5,7 +5,7 @@ import './Navbar.css';
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <a href="/" className="navbar-logo">MyApp</a>
+      <a href="/" className="navbar-logo">Gperi ERP</a>
       <div className="navbar-links">
         <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>

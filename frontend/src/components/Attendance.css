@@ -75,10 +75,10 @@
 
 /* Buttons */
 .save-attendance-btn {
-  width: 100%;
+  width: 200px;
   padding: 12px;
   font-size: 16px;
-  background-color: #4CAF50;
+  background-color: rgb(19, 3, 249);
   color: white;
   border: none;
   border-radius: 5px;
@@ -86,9 +86,12 @@
   margin-top: 20px;
 }
 
-.save-attendance-btn:hover {
-  background-color: #45a049;
+.save-atd-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .save-attendance-btn:disabled {
   background-color: #ccc;
