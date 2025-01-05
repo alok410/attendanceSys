@@ -153,7 +153,7 @@ app.get('/studentslist',authenticate, async (req, res) => {
     // You might want to validate the token here...
 
     // Fetch faculties (teachers) from the users table
-    const sql = 'SELECT id, name FROM users WHERE role = "student"';
+    const sql = 'SELECT * FROM users WHERE role = "student"';
     const students = await dbQuery(sql); // Assuming dbQuery is your helper function for queries
     res.json(students); // Send the list of teachers as a response
   } catch (error) {
@@ -498,6 +498,70 @@ app.post('/createClass', authenticate, (req, res) => {
     return res.status(201).json({ message: 'Class created successfully' });
   });
 });
+
+
+app.post('/addStudent', authenticate, (req, res) => {
+  const { name, email, password, role, class_id } = req.body;
+
+  if (!name || !email || !password || !role || !class_id) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  // Check if email already exists in the database
+  const checkEmailSql = 'SELECT * FROM users WHERE email = ?';
+  db.query(checkEmailSql, [email], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    if (result.length > 0) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    // Proceed with insertion if email is unique
+    const insertSql = 'INSERT INTO users (name, email, password, role, class_id) VALUES (?, ?, ?, ?, ?)';
+    db.query(insertSql, [name, email, password, role, class_id], (err, result) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Database error: Could not create student' });
+      }
+      return res.status(201).json({ message: 'Student added successfully' });
+    });
+  });
+});
+
+app.post('/deleteStudent', authenticate, (req, res) => {
+  const { student_id } = req.body;
+
+  if (!student_id) {
+    return res.status(400).json({ error: 'Student ID is required' });
+  }
+
+  // Check if the student exists in the database
+  const checkStudentSql = 'SELECT * FROM users WHERE id = ?';
+  db.query(checkStudentSql, [student_id], (err, result) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+
+    // Proceed with deletion
+    const deleteSql = 'DELETE FROM users WHERE id = ?';
+    db.query(deleteSql, [student_id], (err, result) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: 'Database error: Could not delete student' });
+      }
+      return res.status(200).json({ message: 'Student deleted successfully' });
+    });
+  });
+});
+
 
 
 const dbQuery = (sql, params) => {

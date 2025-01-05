@@ -1,62 +1,209 @@
 /* General container styling */
-div {
-    font-family: Arial, sans-serif;
-    margin: 20px auto;
+.students-list-container {
+  font-family: Arial, sans-serif;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 900px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.students-list-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+/* Table styling */
+.students-list-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.students-list-container th,
+.students-list-container td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 1em;
+}
+
+.students-list-container th {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.students-list-container tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.students-list-container tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button styling */
+button {
+  padding: 10px 20px;
+  font-size: 1.1em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Filter select styling */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Pagination styling */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  font-size: 1.1em;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+.pagination .active {
+  background-color: #0056b3;
+  font-weight: bold;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 50%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form styling */
+.student-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.student-form input,
+.student-form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.student-form button {
+  padding: 12px 20px;
+  font-size: 1.1em;
+  margin-top: 20px;
+  background-color: #28a745;
+  border-radius: 5px;
+  color: #fff;
+  border: none;
+}
+
+.student-form button:hover {
+  background-color: #218838;
+}
+
+.student-form button:focus {
+  outline: none;
+}
+
+.student-form button[type="button"] {
+  background-color: #dc3545;
+}
+
+.student-form button[type="button"]:hover {
+  background-color: #c82333;
+}
+
+/* Password visibility toggle */
+.student-form div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .students-list-container {
+    padding: 15px;
+  }
+
+  .students-list-container h2 {
+    font-size: 1.5em;
+  }
+
+  .modal-content {
+    width: 90%;
     padding: 20px;
-    max-width: 800px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  /* Heading styling */
-  h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+
+  .filter-container {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  /* Table styling */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+
+  .filter-container select {
+    margin-bottom: 10px;
   }
-  
-  th, td {
-    padding: 12px 15px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  td {
-    border: 1px solid #ddd;
-  }
-  
-  /* No students found message */
-  p {
-    text-align: center;
-    color: #777;
-  }
-  
-  /* Loading and error messages */
-  div > div, div > p {
-    text-align: center;
-    color: #555;
-    font-size: 1.1em;
-    margin-top: 20px;
-  }
-  
+}
