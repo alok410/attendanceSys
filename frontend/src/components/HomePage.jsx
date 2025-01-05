@@ -43,7 +43,6 @@ const HomePage = () => {
     fetchUsers();
   }, []);
 
-  // Filter classes based on selected filters
  
 
   // Handle filter change
@@ -52,10 +51,9 @@ const HomePage = () => {
 
   const handleLogout = () => {
     console.log('Logout hit');
-    // Remove the token from localStorage to log out the user.
     localStorage.removeItem('token');
-    // Redirect the user to the login page.
     navigate('/login');
+    
   };
 
   // Loading state
@@ -63,17 +61,17 @@ const HomePage = () => {
     return <div className="loading">Loading...</div>;
   }
 
-  // Unauthorized state
   if (!isAuthorized) {
     return (
       <div className="unauthorized-container">
         <h2>Unauthorized</h2>
         <p>You are not authorized to access this page.</p>
         <button
+        style={{backgroundColor:"red "}}
           onClick={() => {
-            localStorage.removeItem('token'); // Remove the token
-            setIsAuthorized(null); // Reset the authorized state
-            navigate('/login'); // Navigate to login
+            localStorage.removeItem('token');
+            setIsAuthorized(null); 
+            navigate('/login'); 
           }}
         >
           Go to Login
@@ -87,7 +85,6 @@ const HomePage = () => {
     <>
       <Navbar />
       <div>
-
       <button
                 className="class-button home-btn"
                 onClick={() => navigate(`/class`)} // Navigate to the class details page
